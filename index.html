@@ -52,6 +52,9 @@ body.compact .board{transform:scale(0.85);transform-origin:top center}
 .nav{display:flex;gap:8px}
 .nav a{color:var(--muted);text-decoration:none;font-size:15px;padding:8px 16px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,0.02);display:inline-flex;align-items:center}
 .nav a.active{color:#c7ffdf;border-color:rgba(34,197,94,0.35);box-shadow:0 0 0 2px rgba(34,197,94,0.12) inset,0 0 12px rgba(34,197,94,0.18)}
+.topbar-actions{display:none;gap:8px}
+.icon-btn{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.04);display:inline-flex;align-items:center;justify-content:center;color:var(--muted);box-shadow:inset 0 1px 0 rgba(255,255,255,0.04)}
+.icon-btn:active{transform:translateY(1px)}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.35);backdrop-filter:blur(12px)}
 .board{position:relative;padding:64px 28px 28px}
 .board::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:
@@ -167,8 +170,11 @@ body.theme-light{
 @media (max-width:414px){
   body{padding:16px}
   body{font-size:15px}
-  .nav{overflow-x:auto;white-space:nowrap;gap:6px;-webkit-overflow-scrolling:touch}
-  .nav a{flex:0 0 auto;padding:6px 12px;font-size:14px}
+  .topbar{position:sticky;top:10px}
+  .topbar-actions{display:flex}
+  .nav{display:none;position:absolute;right:12px;top:56px;flex-direction:column;padding:8px;background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,0.35);gap:8px}
+  .nav.open{display:flex}
+  .nav a{padding:10px 14px;font-size:14px;flex:0 0 auto}
   .board{padding:28px 12px 14px}
   .board::after{background:
     radial-gradient(700px 400px at 12% 2%,rgba(167,139,250,0.10),transparent 60%),
@@ -214,6 +220,10 @@ body.theme-light{
       <a href="#music" class="nav-item">music</a>
       <a href="#extras" class="nav-item">extras</a>
     </nav>
+    <div class="topbar-actions" aria-hidden="true">
+      <button class="icon-btn" id="btnThemeHdr" title="toggle theme">🌙</button>
+      <button class="icon-btn" id="btnMenuHdr" title="menu">≡</button>
+    </div>
   </header>
 
   <main id="home" class="board card">

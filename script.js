@@ -87,6 +87,7 @@ window.addEventListener("DOMContentLoaded",()=>{
   initLongPressSocial();
   initShareGithub();
   initTypewriter();
+  initTopbarActions();
 });
 
 function initTypewriter(){
@@ -262,6 +263,27 @@ function initSwipeNav(){
   document.addEventListener("touchend",()=>{swiping=false},{passive:true});
 }
 
+function initTopbarActions(){
+  const btnTheme=document.getElementById("btnThemeHdr");
+  const btnMenu=document.getElementById("btnMenuHdr");
+  const nav=document.querySelector(".topbar .nav");
+  if(btnTheme){
+    btnTheme.addEventListener("click",()=>{
+      const chip=document.querySelector(".mode-chip");
+      if(chip) chip.click();
+    });
+  }
+  if(btnMenu && nav){
+    btnMenu.addEventListener("click",()=>{
+      nav.classList.toggle("open");
+    });
+    document.addEventListener("click",(e)=>{
+      if(!nav.classList.contains("open"))return;
+      const withinTopbar=e.target.closest(".topbar");
+      if(!withinTopbar){ nav.classList.remove("open"); }
+    });
+  }
+}
 function initLongPressSocial(){
   const items=[...document.querySelectorAll(".social-btn[href]")];
   if(!items.length)return;
