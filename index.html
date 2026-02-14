@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramzy — NIKI Fans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --bg:#0b0f16;
+    --panel:rgba(17,17,24,0.6);
+    --border:rgba(255,255,255,0.08);
+    --soft:rgba(255,255,255,0.06);
+    --text:#e5e7eb;
+    --muted:#a7aeb8;
+    --accent:#22c55e;
+    --accent2:#10b981;
+    --grad1:#8b5cf6;
+    --grad2:#22c55e;
+    --grad3:#60a5fa;
+    --orb1:rgba(88,101,242,0.08);
+    --orb2:rgba(34,197,94,0.10);
+    --font-sans:'Inter','Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,'Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:var(--font-sans)}
+body{
+    min-height:100vh;
+    background:
+      radial-gradient(900px at 15% 10%,var(--orb1),transparent 60%),
+      radial-gradient(800px at 85% 40%,var(--orb2),transparent 60%),
+      linear-gradient(var(--bg),var(--bg));
+    color:var(--text);
+    padding:28px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+}
+.shell{max-width:1120px;margin:0 auto}
+body.compact .board{transform:scale(0.85);transform-origin:top center}
+.compact .topbar{transform:scale(0.85);transform-origin:top center}
+.topbar{position:sticky;top:12px;z-index:50;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding:10px 14px;background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.35);backdrop-filter:blur(12px)}
+.brand{display:flex;flex-direction:column;gap:4px}
+.brand-row{display:flex;align-items:center;gap:8px}
+.status-dot{width:10px;height:10px;border-radius:999px;background:radial-gradient(circle at 35% 35%,#10b981,#22c55e 60%);box-shadow:0 0 0 2px rgba(34,197,94,0.25),0 0 10px rgba(34,197,94,0.35)}
+.brand-title{font-weight:700;letter-spacing:.2px;font-size:16px}
+.brand-sub{color:var(--muted);font-size:14px}
+.nav{display:flex;gap:8px}
+.nav a{color:var(--muted);text-decoration:none;font-size:15px;padding:8px 16px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,0.02)}
+.nav a.active{color:#c7ffdf;border-color:rgba(34,197,94,0.35);box-shadow:0 0 0 2px rgba(34,197,94,0.12) inset,0 0 12px rgba(34,197,94,0.18)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.35);backdrop-filter:blur(12px)}
+.board{position:relative;padding:64px 28px 28px}
+.board::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:
+  radial-gradient(900px 600px at 10% 0%,rgba(167,139,250,0.14),transparent 60%),
+  radial-gradient(700px 500px at 100% 100%,rgba(124,58,237,0.12),transparent 60%)}
+.mode-chip{position:absolute;right:18px;top:18px;font-size:14px;color:var(--muted);padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.04);cursor:pointer;transition:all .2s ease}
+.mode-chip:hover{box-shadow:0 0 0 2px rgba(34,197,94,0.12) inset}
+.status-pill{position:absolute;left:18px;top:18px;display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));}
+.status-pill .dot{width:10px;height:10px;border-radius:999px;background:radial-gradient(circle at 35% 35%,#10b981,#22c55e 60%);box-shadow:0 0 0 2px rgba(34,197,94,0.25),0 0 10px rgba(34,197,94,0.35)}
+.intro{display:grid;grid-template-columns:120px 1fr;gap:24px;margin-bottom:22px;align-items:center}
+.avatar{width:120px;height:120px;border-radius:50%;overflow:hidden;border:1px solid var(--border);box-shadow:0 0 0 6px rgba(255,255,255,0.02),0 10px 30px rgba(0,0,0,0.5)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.intro h1{font-size:52px;line-height:1.1;font-weight:800;margin:10px 0}
+.intro h1 span{background:linear-gradient(to right,#4ade80,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.intro p{color:var(--muted);font-size:18px}
+.chips{display:flex;gap:10px;margin:6px 0}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--muted);font-size:14px}
+.chip.hollow{background:transparent}
+.typing-cursor{display:inline-block;width:10px;height:1em;border-radius:4px;background:#22c55e;margin-left:6px;animation:blink 1s step-start infinite}
+.typing-text{color:var(--text)}
+.chip-dot{padding:6px}
+.chip-dot .dot-mini{width:10px;height:10px;border-radius:999px;background:radial-gradient(circle at 35% 35%,#10b981,#22c55e 60%);display:inline-block;box-shadow:0 0 0 2px rgba(34,197,94,0.18),0 0 10px rgba(34,197,94,0.22)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;align-items:center}
+.btn{cursor:pointer;border:none;border-radius:10px;padding:10px 16px;background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));color:var(--text);border:1px solid var(--border);transition:all .2s ease;font-weight:600;font-size:15px}
+.btn.accent{border-color:rgba(34,197,94,0.35);box-shadow:0 0 0 2px rgba(34,197,94,0.12) inset}
+.btn-lg{padding:12px 18px;font-size:16px}
+.btn .ico-mini{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid var(--soft);margin-right:8px;font-size:14px}
+.btn:hover{border-color:rgba(34,197,94,0.35);box-shadow:0 0 0 2px rgba(34,197,94,0.12) inset,0 8px 18px rgba(0,0,0,0.4);transform:translateY(-1px)}
+.btn.outline{background:transparent}
+.email-label{color:var(--muted);font-size:15px;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.panel{padding:20px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,0.04);box-shadow:inset 0 1px 0 rgba(255,255,255,0.04)}
+.panel h3{font-size:14px;letter-spacing:.12em;color:var(--muted);margin-bottom:12px}
+.panel p,.panel li,.panel span{color:var(--text);font-size:16px}
+.list{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:16px;color:var(--text)}
+.list span:not(:last-child)::after{content:" \2022";margin-left:8px;color:var(--muted);opacity:0.5}
+.panel ul{list-style:none;padding:0;margin:0;font-size:16px}
+.panel ul li{margin-bottom:8px;position:relative;padding-left:18px}
+.panel ul li::before{content:"\2022";position:absolute;left:0;color:var(--muted);opacity:0.5}
+.panel-music{grid-column:1 / -1}
+.social-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.social-btn{display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.04);text-decoration:none;color:var(--text);font-size:16px;transition:all .2s ease}
+  .social-btn:hover{border-color:rgba(34,197,94,0.35);box-shadow:0 0 0 2px rgba(34,197,94,0.12) inset,0 8px 18px rgba(0,0,0,0.4);transform:translateY(-1px)}
+  .social-btn .left{display:flex;align-items:center;gap:14px}
+  .social-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);border:1px solid var(--soft);flex-shrink:0}
+  .social-ico svg{width:20px;height:20px;color:var(--text);opacity:0.8}
+.note{display:flex;gap:10px;align-items:flex-start}
+.note textarea{flex:1;min-height:80px;padding:12px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text);resize:vertical}
+.avatar{position:relative}
+.avatar::before{content:"";position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 0deg,var(--grad1),var(--grad2),var(--grad3),var(--grad1));-webkit-mask:radial-gradient(circle at 50% 50%,transparent calc(100% - 6px),#000 calc(100% - 5px));mask:radial-gradient(circle at 50% 50%,transparent calc(100% - 6px),#000 calc(100% - 5px));animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Theme presets */
+body.theme-dark{
+  --bg:#0b0f16;
+  --panel:rgba(17,17,24,0.6);
+  --border:rgba(255,255,255,0.08);
+  --soft:rgba(255,255,255,0.06);
+  --text:#e5e7eb;
+  --muted:#a7aeb8;
+  --accent:#a78bfa;
+  --accent2:#8b5cf6;
+  --grad1:#a78bfa; --grad2:#8b5cf6; --grad3:#c084fc;
+  --orb1:rgba(167,139,250,0.12);
+  --orb2:rgba(124,58,237,0.12);
+}
+body.theme-green{
+  --bg:#0b0f16;
+  --panel:rgba(17,17,24,0.6);
+  --border:rgba(255,255,255,0.08);
+  --soft:rgba(255,255,255,0.06);
+  --text:#e5e7eb;
+  --muted:#a7aeb8;
+  --accent:#22c55e;
+  --accent2:#10b981;
+  --grad1:#22c55e; --grad2:#10b981; --grad3:#60a5fa;
+  --orb1:rgba(34,197,94,0.12);
+  --orb2:rgba(96,165,250,0.10);
+}
+body.theme-light{
+  --bg:#f5f7fb;
+  --panel:rgba(255,255,255,0.75);
+  --border:rgba(0,0,0,0.08);
+  --soft:rgba(0,0,0,0.06);
+  --text:#111827;
+  --muted:#4b5563;
+  --accent:#8b5cf6;
+  --accent2:#a78bfa;
+  --grad1:#8b5cf6; --grad2:#a78bfa; --grad3:#c084fc;
+  --orb1:rgba(139,92,246,0.12);
+  --orb2:rgba(167,139,250,0.10);
+}
+@media (max-width:840px){
+  .intro{grid-template-columns:80px 1fr}
+  .avatar{width:80px;height:80px}
+  .intro h1{font-size:36px}
+  .grid{grid-template-columns:1fr}
+  .email-label{display:none}
+}
+</style>
+</head>
+<body class="theme-dark compact">
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-row"><span class="status-dot" aria-hidden="true"></span><div class="brand-title">Ramzy Liemareth — userwholovejila</div></div>
+      <div class="brand-sub">quiet • midnight rain • jila</div>
+    </div>
+    <nav class="nav">
+      <a href="#home" class="nav-item active">home</a>
+      <a href="#social" class="nav-item">social</a>
+      <a href="#music" class="nav-item">music</a>
+      <a href="#extras" class="nav-item">extras</a>
+    </nav>
+  </header>
+
+  <main id="home" class="board card">
+    <div class="status-pill"><span class="dot" aria-hidden="true"></span></div>
+    <div class="mode-chip">mode: dark</div>
+
+    <section class="intro">
+      <div class="avatar"><img src="Gambar/Ramzy2.jpg" alt="avatar"></div>
+      <div>
+        <h1><span class="grad">Ramzy Liemareth</span> ✧</h1>
+        <p>calm nights • minimal noise.<br>listening to Cigarettes After Sex.</p>
+        <div class="chips">
+          <span class="chip hollow"><span id="typewriter"></span><span class="typing-cursor"></span></span>
+          <span class="chip" id="time">--:-- WIB</span>
+        </div>
+        <div class="actions">
+          <button class="btn btn-lg" id="btnPlay"><span class="ico-mini">🎧</span><span>play</span></button>
+          <button class="btn btn-lg" id="btnCopyEmail"><span class="ico-mini">📋</span><span>copy email</span></button>
+          <button class="btn btn-lg" id="btnCopyUsername"><span class="ico-mini">🧸</span><span>copy username</span></button>
+          <button class="btn btn-lg outline" id="btnShareGithub"><span class="ico-mini">↗</span><span>share</span></button>
+          <span class="email-label" style="font-size:12px">email: ramzyxce@gmail.com</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h3>ABOUT</h3>
+        <p>The rain falls lightly doesn't it?</p>
+        <p>Like the soft memories of us</p>
+        <p>Fading but still here</p>
+      </div>
+      <div class="panel">
+        <h3>THINGS I LIKE</h3>
+        <div class="list">
+          <span>late nights talks</span><span>low lights</span><span>midnight rain</span><span>silence</span><span>soft person</span><span>warm place</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>FAVORITES (CAS)</h3>
+        <div class="list">
+          <span>keep on loving you</span><span>jila</span><span>touch</span><span>talking</span><span>sunsetz</span><span>her in the morning</span><span>movies</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>COMFORT LIST</h3>
+        <ul>
+          <li>midnight talks</li>
+          <li>low light</li>
+          <li>cold air</li>
+          <li>slow music</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>HOBBIES</h3>
+        <div class="list">
+          <span>web apps</span><span>music</span><span>server minecraft</span><span>k-dramas</span><span>movies</span><span>reading</span>
+        </div>
+      </div>
+      <div id="social" class="panel">
+        <h3>SOCIAL (ICONS)</h3>
+        <div class="social-grid">
+          <a class="social-btn" id="linkRoblox" href="#" target="_blank" rel="noreferrer noopener">
+            <span class="left">
+              <span class="social-ico">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.8 4L4 7.9 7.9 22.7 22.7 18.8 18.8 4ZM15.4 15.6L10.2 17 8.8 11.8 14 10.4 15.4 15.6Z"/></svg>
+              </span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:600">Roblox</span>
+                <span style="font-size:12px;color:var(--muted)">Ramzyxce</span>
+              </div>
+            </span>
+            <span>↗</span>
+          </a>
+          <a class="social-btn" id="linkSpotify" href="#" target="_blank" rel="noreferrer noopener">
+            <span class="left">
+              <span class="social-ico">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.494 17.306c-.215.353-.673.465-1.026.25-2.868-1.753-6.478-2.15-10.73-1.176-.403.093-.81-.16-.902-.562-.092-.403.16-.81.562-.902 4.65-1.064 8.64-.61 11.846 1.348.354.215.465.674.25 1.027zm1.467-3.264c-.27.44-.847.578-1.287.308-3.284-2.018-8.29-2.606-12.174-1.427-.5.152-1.024-.132-1.176-.63-.153-.5.132-1.024.63-1.176 4.437-1.347 9.948-.69 13.714 1.623.44.27.578.847.308 1.287zm.126-3.414c-3.938-2.338-10.434-2.554-14.223-1.403-.604.184-1.248-.162-1.432-.765-.184-.604.162-1.248.765-1.432 4.354-1.32 11.523-1.065 16.03 1.61.543.322.72 1.024.4 1.567-.322.543-1.024.72-1.567.4z"/></svg>
+              </span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:600">Spotify</span>
+                <span style="font-size:12px;color:var(--muted)">My Profile</span>
+              </div>
+            </span>
+            <span>↗</span>
+          </a>
+          <a class="social-btn" id="linkInstagram" href="#" target="_blank" rel="noreferrer noopener">
+            <span class="left">
+              <span class="social-ico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:600">Instagram</span>
+                <span style="font-size:12px;color:var(--muted)">@ramzyxce_</span>
+              </div>
+            </span>
+            <span>↗</span>
+          </a>
+          <a class="social-btn" id="linkWebsite" href="#" target="_blank" rel="noreferrer noopener">
+            <span class="left">
+              <span class="social-ico">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-1-13h2v10h-2V7zm-4 4h2v6H7v-6zm8 2h2v4h-2v-4z"/></svg>
+              </span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:600">Website</span>
+                <span style="font-size:12px;color:var(--muted)">Portfolio</span>
+              </div>
+            </span>
+            <span>↗</span>
+          </a>
+          <a class="social-btn" id="linkGithub" href="#" target="_blank" rel="noreferrer noopener">
+            <span class="left">
+              <span class="social-ico">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.9 5.33.9 11.6c0 4.88 3.17 9.02 7.57 10.48.55.1.75-.24.75-.54 0-.27-.01-1.16-.02-2.1-3.08.67-3.73-1.32-3.73-1.32-.5-1.27-1.22-1.6-1.22-1.6-.99-.68.07-.66.07-.66 1.1.08 1.67 1.12 1.67 1.12.98 1.67 2.56 1.19 3.18.9.1-.71.38-1.19.69-1.47-2.46-.28-5.05-1.23-5.05-5.47 0-1.21.43-2.19 1.12-2.96-.11-.28-.49-1.41.11-2.94 0 0 .92-.29 3.02 1.13a10.5 10.5 0 0 1 5.5 0c2.1-1.42 3.02-1.13 3.02-1.13.6 1.53.22 2.66.11 2.94.69.77 1.12 1.75 1.12 2.96 0 4.25-2.6 5.19-5.07 5.46.39.34.74 1.01.74 2.04 0 1.47-.01 2.65-.01 3.01 0 .3.2.65.76.54 4.39-1.47 7.56-5.61 7.56-10.48C23.1 5.33 18.27.5 12 .5z"/></svg>
+              </span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:600">GitHub</span>
+                <span style="font-size:12px;color:var(--muted)">@ramzyxce</span>
+              </div>
+            </span>
+            <span>↗</span>
+          </a>
+          <a class="social-btn" id="linkDiscord" href="#" target="_blank" rel="noreferrer noopener">
+            <span class="left">
+              <span class="social-ico">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              </span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:600">Discord</span>
+                <span style="font-size:12px;color:var(--muted)">Mystral Academy</span>
+              </div>
+            </span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>GUEST NOTE</h3>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:10px">(saved in browser)</p>
+        <div class="note">
+          <textarea id="guestNote" placeholder="leave a tiny note..."></textarea>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn" id="btnSaveNote">save</button>
+            <button class="btn outline" id="btnClearNote">clear</button>
+          </div>
+        </div>
+        <div id="savedNoteContainer" style="margin-top:16px;display:none;border-top:1px solid var(--border);padding-top:12px">
+            <span style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px">saved note:</span>
+            <p id="savedNoteDisplay" style="color:var(--text);font-size:15px;white-space:pre-wrap"></p>
+        </div>
+      </div>
+      <div id="contact" class="panel">
+        <h3>CONTACT</h3>
+        <p>ramzyxce@email.com</p>
+        <p style="font-size:12px;color:var(--muted);margin-top:10px">tip: click "copy email".</p>
+      </div>
+      <div id="music" class="panel panel-music">
+        <h3>MUSIC</h3>
+        <iframe style="width:100%;height:80px;border:0;border-radius:12px"
+          src="https://open.spotify.com/embed/track/7bPWdJgx8vek7S5i5yAtvG?si=54d9aed8a5cc45c4"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+          loading="lazy"></iframe>
+        <iframe style="width:100%;height:80px;border:0;border-radius:12px;margin-top:8px"
+          src="https://open.spotify.com/embed/track/0M6TLjxixptslrmQpWbRoR"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+          loading="lazy"></iframe>
+        <iframe style="width:100%;height:80px;border:0;border-radius:12px;margin-top:8px"
+          src="https://open.spotify.com/embed/track/1o82DwNisONAd2mu1RcGE6?si=a2a11a0bb22c4b39"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+          loading="lazy"></iframe>
+        <a class="btn accent" style="margin-top:10px;display:inline-block" href="https://open.spotify.com/user/31wmimnbduqkbkp3rdmryazrlcv4?si=c513f457abfd4907" target="_blank" rel="noreferrer noopener">My Spotify Profile ↗</a>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="script.js" defer></script>
+</body>
+</html>
