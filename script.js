@@ -83,6 +83,8 @@ window.addEventListener("DOMContentLoaded",()=>{
   setSocialLinks();
   initThemeToggle();
   initSectionNav();
+  initSwipeNav();
+  initLongPressSocial();
   initShareGithub();
   initTypewriter();
 });
@@ -229,6 +231,61 @@ function initSectionNav(){
   });
 }
 
+function initSwipeNav(){
+  const ids=["home","social","music","extras"];
+  const sections=ids.map(id=>document.getElementById(id)).filter(Boolean);
+  if(!sections.length)return;
+  let startX=0,startY=0,swiping=false;
+  const threshold=50;
+  document.addEventListener("touchstart",(e)=>{
+    if(!e.touches||!e.touches.length)return;
+    startX=e.touches[0].clientX;
+    startY=e.touches[0].clientY;
+    swiping=true;
+  },{passive:true});
+  document.addEventListener("touchmove",(e)=>{
+    if(!swiping||!e.touches||!e.touches.length)return;
+    const dx=e.touches[0].clientX-startX;
+    const dy=e.touches[0].clientY-startY;
+    if(Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>threshold){
+      const currentIndex=sections.findIndex(s=>{
+        const rect=s.getBoundingClientRect();
+        return rect.top<window.innerHeight*0.5 && rect.bottom>window.innerHeight*0.5;
+      });
+      let target=currentIndex;
+      if(dx<0) target=Math.min(currentIndex+1,sections.length-1); // swipe left -> next
+      else target=Math.max(currentIndex-1,0); // swipe right -> prev
+      sections[target].scrollIntoView({behavior:"smooth",block:"start"});
+      swiping=false;
+    }
+  },{passive:true});
+  document.addEventListener("touchend",()=>{swiping=false},{passive:true});
+}
+
+function initLongPressSocial(){
+  const items=[...document.querySelectorAll(".social-btn[href]")];
+  if(!items.length)return;
+  const LONG_PRESS_MS=550;
+  items.forEach(a=>{
+    let timer=null;
+    const start=()=>{
+      timer=setTimeout(async()=>{
+        const url=a.getAttribute("href");
+        try{
+          await navigator.clipboard.writeText(url);
+          const original=a.lastElementChild?.textContent||"↗";
+          if(a.lastElementChild)a.lastElementChild.textContent="copied";
+          setTimeout(()=>{if(a.lastElementChild)a.lastElementChild.textContent=original},1500);
+        }catch{}
+      },LONG_PRESS_MS);
+    };
+    const cancel=()=>{if(timer){clearTimeout(timer);timer=null;}};
+    a.addEventListener("touchstart",start,{passive:true});
+    a.addEventListener("touchend",cancel,{passive:true});
+    a.addEventListener("touchmove",cancel,{passive:true});
+    a.addEventListener("touchcancel",cancel,{passive:true});
+  });
+}
 function initShareGithub(){
   const btn=document.getElementById("btnShareGithub");
   if(!btn)return;
