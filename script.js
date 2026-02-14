@@ -93,36 +93,8 @@ window.addEventListener("DOMContentLoaded",()=>{
 function initTypewriter(){
   const el=document.getElementById("typewriter");
   if(!el)return;
-  const texts=["midnight loop.","quiet logs","love jila"];
-  let textIndex=0;
-  let charIndex=0;
-  let isDeleting=false;
-  
-  function type(){
-    const current=texts[textIndex];
-    let speed=40; // Super fast typing speed
-    
-    if(isDeleting){
-      el.textContent=current.substring(0,charIndex-1);
-      charIndex--;
-      speed=20; // Super fast deleting
-    }else{
-      el.textContent=current.substring(0,charIndex+1);
-      charIndex++;
-    }
-    
-    if(!isDeleting && charIndex===current.length){
-      isDeleting=true;
-      speed=1000; // Shorter pause at end
-    }else if(isDeleting && charIndex===0){
-      isDeleting=false;
-      textIndex=(textIndex+1)%texts.length;
-      speed=200; // Short pause before next
-    }
-    
-    setTimeout(type,speed);
-  }
-  type();
+  const word="Midnight";
+  el.textContent=word;
 }
 
 function initPlay(){
