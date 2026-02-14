@@ -93,8 +93,23 @@ window.addEventListener("DOMContentLoaded",()=>{
 function initTypewriter(){
   const el=document.getElementById("typewriter");
   if(!el)return;
-  const word="Midnight";
-  el.textContent=word;
+  const texts=["Midnight","quiet logs","love jila"];
+  let i=0, j=0, del=false;
+  function tick(){
+    const current=texts[i];
+    let speed=38;
+    if(del){
+      el.textContent=current.substring(0,j-1);
+      j--; speed=18;
+    }else{
+      el.textContent=current.substring(0,j+1);
+      j++;
+    }
+    if(!del && j===current.length){ del=true; speed=900; }
+    else if(del && j===0){ del=false; i=(i+1)%texts.length; speed=160; }
+    setTimeout(tick,speed);
+  }
+  tick();
 }
 
 function initPlay(){
@@ -283,9 +298,34 @@ function initLongPressSocial(){
 function initShareGithub(){
   const btn=document.getElementById("btnShareGithub");
   if(!btn)return;
-  const GITHUB_URL="https://github.com/ramzyxce";
-  btn.addEventListener("click",()=>{
-    window.open(GITHUB_URL,"_blank","noopener,noreferrer");
-  });
+  const SHARE_URL="https://ramzyxce.github.io/personal/";
+  const copy = async (text) => {
+    try{
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+      }else{
+        const ta=document.createElement("textarea");
+        ta.value=text;
+        ta.setAttribute("readonly","");
+        ta.style.position="absolute";
+        ta.style.left="-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      const labelSpan = btn.querySelector("span:last-child");
+      const original = labelSpan ? labelSpan.textContent : btn.textContent;
+      if(labelSpan) labelSpan.textContent = "copied";
+      else btn.textContent = "copied";
+      setTimeout(()=>{
+        if(labelSpan) labelSpan.textContent = original;
+        else btn.textContent = original;
+      },1500);
+    }catch(e){
+      console.warn("Copy failed", e);
+    }
+  };
+  btn.addEventListener("click",()=>{ copy(SHARE_URL); });
 }
 
