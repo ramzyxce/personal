@@ -42,7 +42,13 @@ body{
 img{max-width:100%;height:auto}
 body.compact .board{transform:scale(0.85);transform-origin:top center}
 .compact .topbar{transform:scale(0.85);transform-origin:top center}
-.topbar{position:sticky;top:12px;z-index:50;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding:10px 14px;background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.35);backdrop-filter:blur(12px)}
+.topbar{position:sticky;top:12px;z-index:999;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding:10px 14px;background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.35);backdrop-filter:blur(12px);transition:transform .22s ease,opacity .22s ease,box-shadow .22s ease,backdrop-filter .22s ease,padding .22s ease,border-radius .22s ease}
+.topbar.is-compact{padding:8px 12px;border-radius:16px;backdrop-filter:blur(14px);box-shadow:0 6px 22px rgba(0,0,0,0.35)}
+.topbar.is-hidden{transform:translateY(-16px);opacity:.85}
+  .reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.5,0,0,1)}
+  .reveal.active{opacity:1;transform:translateY(0)}
+  @media (prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}}
+  .shell{max-width:1120px;margin:0 auto}
 .brand{display:flex;flex-direction:column;gap:4px;min-width:0}
 .brand-row{display:flex;align-items:center;gap:8px}
 .brand-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}

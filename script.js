@@ -88,7 +88,26 @@ window.addEventListener("DOMContentLoaded",()=>{
   initShareGithub();
   initTypewriter();
   initTopbarActions();
+  initTopbarScrollAnimation();
+  initScrollAnimations();
 });
+
+function initScrollAnimations(){
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("active");
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.1,rootMargin:"0px 0px -40px 0px"});
+  const els=document.querySelectorAll(".intro, .panel, .social-btn, .note, .actions > *");
+  els.forEach((el,i)=>{
+    el.classList.add("reveal");
+    el.style.transitionDelay=(i%3)*0.1+"s";
+    obs.observe(el);
+  });
+}
 
 function initTypewriter(){
   const el=document.getElementById("typewriter");
@@ -270,6 +289,17 @@ function initTopbarActions(){
       if(!withinTopbar){ nav.classList.remove("open"); }
     });
   }
+}
+
+function initTopbarScrollAnimation(){
+  const topbar=document.querySelector(".topbar");
+  if(!topbar)return;
+  const COMPACT_Y=8;
+  function onScroll(){
+    const y=window.scrollY||0;
+    topbar.classList.toggle("is-compact", y>COMPACT_Y);
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
 }
 function initLongPressSocial(){
   const items=[...document.querySelectorAll(".social-btn[href]")];
