@@ -1,12 +1,295 @@
-.image-box{
-    width:200px;
-    height:200px;
-    overflow:hidden;
-    border-radius:50%;
+:root {
+    --bg-color: #050505;
+    --card-bg: #0f0f11;
+    --card-hover: #141416;
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --accent: #8b5cf6; /* Purple */
+    --accent-glow: rgba(139, 92, 246, 0.3);
+    --border-radius: 28px;
+    --font-main: 'Outfit', sans-serif;
 }
 
-.image-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Top Navigation Dot */
+.top-nav {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+
+.status-indicator {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.status-indicator:hover {
+    border-color: var(--accent);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Bento Layout */
+.bento-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+    aspect-ratio: 2/1; /* Roughly wide */
+}
+
+/* General Card Style */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    background-color: var(--card-hover);
+}
+
+/* Left Bio Card */
+.card-bio {
+    grid-row: span 2;
+    justify-content: space-between;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.status-pill .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+}
+
+.bio-content {
+    margin-top: auto;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 90%;
+}
+
+/* Right Column */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+}
+
+/* Profile Card */
+.card-profile {
+    background-image: url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); /* Cat/Anime vibe placeholder */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 20px;
+}
+
+.card-profile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+.profile-info {
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+}
+
+.profile-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+.profile-info p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Stats Card */
+.card-stats {
+    background-color: var(--accent);
+    color: #fff;
+    justify-content: space-between;
+}
+
+.card-stats:hover {
+    background-color: #7c3aed; /* Slightly darker purple on hover */
+}
+
+.card-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.card-icons svg {
+    width: 24px;
+    height: 24px;
+}
+
+.stat-number h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-number p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Map Card */
+.card-map {
+    flex: 1;
+    background-color: #1a1a1a;
+    background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 1000 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M836.8,197.6c-1.3-1.6-3.1-2.6-5.1-2.9c-2-0.3-4.1,0.2-5.8,1.3c-2.4,1.5-3.8,4.2-3.7,7c0.1,2.8,1.7,5.4,4.2,6.7c0.8,0.4,1.7,0.7,2.6,0.7c1.8,0,3.5-0.7,4.9-1.9C836.4,206.5,837.5,202.1,836.8,197.6L836.8,197.6z M248.8,136.6c-2.4-1.2-5.3-0.8-7.3,1.1c-1.2,1.1-1.9,2.7-1.9,4.3c0,0.8,0.2,1.6,0.5,2.4c1.1,2.6,4,4,6.7,3.4c2.7-0.6,4.7-3,4.7-5.8C251.5,139.6,250.4,137.4,248.8,136.6L248.8,136.6z M574.6,357.5c-0.2-1.3-0.9-2.5-1.9-3.4c-2.3-1.9-5.6-1.8-7.8,0.3c-2.2,2.1-2.5,5.4-0.9,7.9c1,1.5,2.6,2.4,4.4,2.4c0.8,0,1.6-0.2,2.3-0.5C573.1,363,574.8,360.4,574.6,357.5L574.6,357.5z' fill='%23333333'/%3E%3Cpath d='M155.6,247.3c-1.7-1.3-4-1.5-5.9-0.5c-1.9,1-3.1,3-3.1,5.2c0,0.9,0.2,1.8,0.6,2.6c1.3,2.5,4.1,3.9,6.9,3.3c2.7-0.5,4.8-2.8,4.9-5.6C159.1,250.1,157.8,248.2,155.6,247.3L155.6,247.3z' fill='%23333333'/%3E%3C/svg%3E"); 
+    /* The above is a tiny placeholder SVG, normally you'd use a real world map SVG */
+    /* Let's try a better World Map gradient/mask effect via CSS if possible, or just a dark placeholder */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+}
+
+/* Creating a World Map shape using a mask or just a dark background with subtle shapes */
+.card-map {
+    position: relative;
+    /* Dark map effect */
+    background: #18181b;
+}
+
+/* Map World Silhouette (CSS only approximation for visual) */
+.card-map::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: invert(1); /* Make it whiteish on dark bg */
+}
+
+
+.location-pill {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.location-pill i {
+    color: var(--text-primary);
+}
+
+.location-pill .time {
+    color: var(--text-secondary);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 10px;
+    margin-left: 5px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .bento-container {
+        grid-template-columns: 1fr;
+        aspect-ratio: auto;
+    }
+    
+    .card-bio {
+        min-height: 400px;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .card-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-profile, .card-stats {
+        min-height: 200px;
+    }
 }
